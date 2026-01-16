@@ -1,0 +1,119 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: online-quiz-system
+  profiles:
+    active: prod  # 默认使用开发环境，部署时改为 prod
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+      file-size-threshold: 1KB
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+  # 邮件配置
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    username: 1780209837@qq.com
+    password: jcnabxsmuevhcecc
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: false
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+            
+# MyBatis Plus配置
+mybatis-plus:
+  # 指定映射文件位置
+  mapper-locations: classpath:mapper/*.xml
+  # 指定类型处理器包
+  type-handlers-package: com.quiz.handler
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 开启自动结果映射，支持JSON类型处理器
+    auto-mapping-behavior: full
+    # 支持JSON类型的映射
+    default-statement-timeout: 30
+  global-config:
+    db-config:
+      # 主键类型
+      id-type: auto
+
+# JWT配置
+jwt:
+  secret: quiz-system-jwt-secret-key-2024-very-long-secure-key-for-hmac-sha256-algorithm-compliance
+  expiration: 172800 # 2天过期
+
+
+
+# 验证码配置
+verification:
+  code:
+    length: 6
+    expire: 300 # 5分钟过期
+    prefix: "verification:email:"
+
+# 自定义答题系统配置
+quiz:
+  system:
+    page:
+      default-size: 10
+      max-size: 100
+      cursor-size: 50
+    question:
+      max-batch-size: 1000
+      default-random-count: 20
+      max-content-length: 2000
+      max-options-count: 10
+    cache:
+      question-expire-time: 3600      # 1小时
+      category-stats-expire-time: 1800 # 30分钟
+      user-session-expire-time: 7200   # 2小时
+    security:
+      jwt-expire-time: 604800          # 7天
+      password-min-length: 6
+      password-max-length: 20
+      max-login-attempts: 5
+      lockout-duration: 1800           # 30分钟
+    file:
+      max-file-size: 10                # 10MB
+      allowed-import-types: ["xlsx", "xls"]
+      upload-path: "./uploads"
+      temp-file-retention-hours: 24

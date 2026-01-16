@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quiz.mapper.QuestionMapper">
+
+    <!-- 结果映射，确保JSON字段正确处理 -->
+    <resultMap id="QuestionResultMap" type="com.quiz.entity.Question" autoMapping="true">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="options" property="options" typeHandler="com.quiz.handler.StringListTypeHandler"/>
+        <result column="correct_answer" property="correctAnswer"/>
+        <result column="analysis" property="analysis"/>
+        <result column="category" property="category"/>
+        <result column="tags" property="tags" typeHandler="com.quiz.handler.StringListTypeHandler"/>
+        <result column="difficulty" property="difficulty"/>
+        <result column="score" property="score"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="answer_count" property="answerCount"/>
+        <result column="correct_count" property="correctCount"/>
+        <result column="status" property="status"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 随机获取题目 -->
+    <select id="selectRandomQuestions" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE status = 1 ORDER BY RAND() LIMIT #{count}
+    </select>
+
+    <!-- 根据分类随机获取题目 -->
+    <select id="selectRandomQuestionsByCategory" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE status = 1 AND category = #{category} ORDER BY RAND() LIMIT #{count}
+    </select>
+
+    <!-- 根据难度随机获取题目 -->
+    <select id="selectRandomQuestionsByDifficulty" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE status = 1 AND difficulty = #{difficulty} ORDER BY RAND() LIMIT #{count}
+    </select>
+
+    <!-- 根据ID获取题目详情 -->
+    <select id="selectQuestionById" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE id = #{id}
+    </select>
+
+</mapper>

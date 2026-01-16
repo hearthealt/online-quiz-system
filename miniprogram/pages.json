@@ -1,0 +1,100 @@
+{
+    "pages": [
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "用户登录",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/index/index",
+            "style": {
+                "navigationBarTitleText": "在线答题",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/exam/exam",
+            "style": {
+                "navigationBarTitleText": "考试模式",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/result/result",
+            "style": {
+                "navigationBarTitleText": "答题结果",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/favorites/favorites",
+            "style": {
+                "navigationBarTitleText": "我的收藏",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/wrong-questions/wrong-questions",
+            "style": {
+                "navigationBarTitleText": "错题本",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/profile/profile",
+            "style": {
+                "navigationBarTitleText": "我的",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/config/config",
+            "style": {
+                "navigationBarTitleText": "答题配置"
+            }
+        },
+        {
+            "path": "pages/practice/practice",
+            "style": {
+                "navigationBarTitleText": "练习模式",
+                "enablePullDownRefresh": false
+            }
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "在线答题系统",
+        "navigationBarBackgroundColor": "#ffffff",
+        "backgroundColor": "#f5f7fa",
+        "app-plus": {
+            "background": "#f5f7fa"
+        }
+    },
+    "tabBar": {
+        "color": "#909399",
+        "selectedColor": "#409eff",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/favorites/favorites",
+                "text": "收藏"
+            },
+            {
+                "pagePath": "pages/wrong-questions/wrong-questions",
+                "text": "错题"
+            },
+            {
+                "pagePath": "pages/profile/profile",
+                "text": "我的"
+            }
+        ]
+    },
+    "uniIdRouter": {}
+}

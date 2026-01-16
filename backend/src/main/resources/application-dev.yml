@@ -1,0 +1,39 @@
+# 开发环境配置
+server:
+  host: localhost  # 开发环境使用localhost
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/quiz_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+# MyBatis Plus配置 - 开发环境
+mybatis-plus:
+  configuration:
+    # 开发环境打印SQL日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置 - 开发环境
+logging:
+  level:
+    com.quiz: debug
+    org.springframework.security: debug
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+
+# 文件上传配置 - 开发环境
+file:
+  upload:
+    path: ./uploads  # 文件上传路径，相对于项目根目录
+
+# Swagger配置 - 开发环境启用
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  show-actuator: true

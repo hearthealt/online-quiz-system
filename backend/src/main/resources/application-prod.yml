@@ -1,0 +1,84 @@
+server:
+  port: 9090
+  address: 0.0.0.0  # 绑定到所有网络接口
+  servlet:
+    context-path: /api
+  # 明确指定服务器地址
+  forward-headers-strategy: framework
+  host: 45.192.104.123  # 外部访问地址
+
+spring:
+  application:
+    name: online-quiz-system
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://45.192.104.123:3306/quiz_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: quiz_system
+    password: K4Tx72xeMHShDjbx
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+      file-size-threshold: 1KB
+
+# MyBatis Plus配置
+mybatis-plus:
+  # 指定映射文件位置
+  mapper-locations: classpath:mapper/*.xml
+  # 指定类型处理器包
+  type-handlers-package: com.quiz.handler
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 生产环境关闭SQL日志
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启自动结果映射，支持JSON类型处理器
+    auto-mapping-behavior: full
+    # 支持JSON类型的映射
+    default-statement-timeout: 30
+  global-config:
+    db-config:
+      # 主键类型
+      id-type: auto
+
+# JWT配置
+jwt:
+  secret: quiz-system-jwt-secret-key-2024-very-long-secure-key-for-hmac-sha256-algorithm-compliance
+  expiration: 604800 # 7天过期
+
+# 日志配置 - 生产环境
+logging:
+  level:
+    com.quiz: info
+    root: warn
+    org.springframework.security: warn
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+
+# 文件上传配置
+file:
+  upload:
+    path: /www/wwwroot/uploads  # 生产环境文件上传路径
+  # 对外访问的完整域名（用于返回文件URL），例如：https://www.quiz-ai.online
+  base-url: https://www.quiz-ai.online
+
+# Swagger配置 - 生产环境禁用
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  show-actuator: true

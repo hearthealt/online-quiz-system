@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quiz.mapper.UserMapper">
+
+    <!-- 结果映射，确保permissions字段正确处理 -->
+    <resultMap id="UserWithPermissionsResultMap" type="com.quiz.entity.User" autoMapping="true">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role" property="role"/>
+        <result column="permissions" property="permissions" typeHandler="com.quiz.handler.StringListTypeHandler"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 根据ID获取用户信息（包含权限） -->
+    <select id="selectByIdWithPermissions" resultMap="UserWithPermissionsResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <!-- 更新用户权限 -->
+    <update id="updateUserPermissions">
+        UPDATE users 
+        SET permissions = #{permissions, typeHandler=com.quiz.handler.StringListTypeHandler},
+            updated_at = NOW()
+        WHERE id = #{userId}
+    </update>
+
+</mapper>
