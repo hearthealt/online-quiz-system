@@ -1,4 +1,8 @@
-# 开发环境配置
+# =============================================
+# 开发环境配置示例
+# 复制此文件为 application-dev.yml 并填入实际配置
+# =============================================
+
 server:
   host: localhost  # 开发环境使用localhost
 
@@ -7,7 +11,16 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/quiz_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: YOUR_DB_PASSWORD      # TODO: 改成你的数据库密码
+
+  # 邮件配置 - 开发环境
+  mail:
+    username: your_email@qq.com     # TODO: 改成你的QQ邮箱
+    password: your_auth_code        # TODO: 改成你的邮箱授权码（不是登录密码）
+
+# JWT配置 - 开发环境
+jwt:
+  secret: dev-quiz-system-jwt-secret-key-2024-for-local-development
 
 # MyBatis Plus配置 - 开发环境
 mybatis-plus:

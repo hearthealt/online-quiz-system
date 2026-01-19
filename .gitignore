@@ -173,6 +173,12 @@ temp/
 credentials.json
 secrets.json
 
+# Spring Boot sensitive config files
+**/application-prod.yml
+**/application-dev.yml
+**/application-local.yml
+**/application-secret.yml
+
 # Database
 *.db
 *.sqlite

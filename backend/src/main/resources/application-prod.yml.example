@@ -1,11 +1,15 @@
+# =============================================
+# 生产环境配置示例
+# 复制此文件为 application-prod.yml 并填入实际配置
+# =============================================
+
 server:
   port: 9090
   address: 0.0.0.0  # 绑定到所有网络接口
   servlet:
     context-path: /api
-  # 明确指定服务器地址
   forward-headers-strategy: framework
-  host: 45.192.104.123  # 外部访问地址
+  host: YOUR_SERVER_IP  # 外部访问地址
 
 spring:
   application:
@@ -13,9 +17,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://45.192.104.123:3306/quiz_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: quiz_system
-    password: K4Tx72xeMHShDjbx
+    url: jdbc:mysql://YOUR_DB_HOST:3306/quiz_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: YOUR_DB_USERNAME
+    password: YOUR_DB_PASSWORD
 
   # Jackson配置
   jackson:
@@ -32,29 +36,28 @@ spring:
       max-request-size: 50MB
       file-size-threshold: 1KB
 
+  # 邮件配置 - 生产环境
+  mail:
+    username: YOUR_EMAIL@qq.com       # TODO: 改成你的QQ邮箱
+    password: YOUR_AUTH_CODE          # TODO: 改成你的邮箱授权码
+
 # MyBatis Plus配置
 mybatis-plus:
-  # 指定映射文件位置
   mapper-locations: classpath:mapper/*.xml
-  # 指定类型处理器包
   type-handlers-package: com.quiz.handler
   configuration:
-    # 开启驼峰命名转换
     map-underscore-to-camel-case: true
     # 生产环境关闭SQL日志
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    # 开启自动结果映射，支持JSON类型处理器
     auto-mapping-behavior: full
-    # 支持JSON类型的映射
     default-statement-timeout: 30
   global-config:
     db-config:
-      # 主键类型
       id-type: auto
 
 # JWT配置
 jwt:
-  secret: quiz-system-jwt-secret-key-2024-very-long-secure-key-for-hmac-sha256-algorithm-compliance
+  secret: YOUR_JWT_SECRET_KEY_MUST_BE_AT_LEAST_256_BITS_LONG_FOR_HS256
   expiration: 604800 # 7天过期
 
 # 日志配置 - 生产环境
@@ -70,15 +73,14 @@ logging:
 file:
   upload:
     path: /www/wwwroot/uploads  # 生产环境文件上传路径
-  # 对外访问的完整域名（用于返回文件URL），例如：https://www.quiz-ai.online
-  base-url: https://www.quiz-ai.online
+  base-url: https://your-domain.com  # 对外访问的完整域名
 
-# Swagger配置 - 生产环境禁用
+# Swagger配置 - 生产环境建议禁用
 springdoc:
   api-docs:
-    enabled: true
+    enabled: false
     path: /v3/api-docs
   swagger-ui:
-    enabled: true
+    enabled: false
     path: /swagger-ui.html
-  show-actuator: true
+  show-actuator: false

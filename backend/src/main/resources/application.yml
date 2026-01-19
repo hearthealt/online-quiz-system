@@ -7,7 +7,7 @@ spring:
   application:
     name: online-quiz-system
   profiles:
-    active: prod  # 默认使用开发环境，部署时改为 prod
+    active: dev  # 开发环境用 dev，部署时改为 prod
 
   # Jackson配置
   jackson:
@@ -38,12 +38,10 @@ spring:
           max-wait: -1ms
           max-idle: 8
           min-idle: 0
-  # 邮件配置
+  # 邮件配置（实际值在 application-dev.yml 或 application-prod.yml 中配置）
   mail:
     host: smtp.qq.com
     protocol: smtp
-    username: 1780209837@qq.com
-    password: jcnabxsmuevhcecc
     port: 465
     properties:
       mail:
@@ -75,11 +73,6 @@ mybatis-plus:
     db-config:
       # 主键类型
       id-type: auto
-
-# JWT配置
-jwt:
-  secret: quiz-system-jwt-secret-key-2024-very-long-secure-key-for-hmac-sha256-algorithm-compliance
-  expiration: 172800 # 2天过期
 
 
 
