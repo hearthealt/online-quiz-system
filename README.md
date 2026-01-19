@@ -185,58 +185,42 @@ npm run dev:mp-weixin
 
 ## 配置说明
 
-### 环境变量配置
+### 配置文件结构
 
-敏感信息通过环境变量配置，避免提交到代码仓库：
+```
+backend/src/main/resources/
+├── application.yml              # 公共配置（不含敏感信息）
+├── application-dev.yml          # 开发环境配置（需自行创建）
+├── application-dev.yml.example  # 开发环境示例
+├── application-prod.yml         # 生产环境配置（需自行创建）
+└── application-prod.yml.example # 生产环境示例
+```
 
-| 环境变量 | 说明 | 示例 |
-|----------|------|------|
-| `MAIL_USERNAME` | 邮箱账号 | `your_email@qq.com` |
-| `MAIL_PASSWORD` | 邮箱授权码 | `your_auth_code` |
-| `JWT_SECRET` | JWT密钥（至少32字符） | `your-secret-key-at-least-32-chars` |
+**注意**：`application-dev.yml` 和 `application-prod.yml` 包含敏感信息（数据库密码、邮箱授权码、JWT密钥），已添加到 `.gitignore`，不会提交到代码仓库。
 
-**Linux/macOS 设置环境变量：**
+### 开发环境配置
+
+1. 复制示例配置文件：
 ```bash
-export MAIL_USERNAME=your_email@qq.com
-export MAIL_PASSWORD=your_auth_code
-export JWT_SECRET=your-secret-key-at-least-32-chars
+cp backend/src/main/resources/application-dev.yml.example backend/src/main/resources/application-dev.yml
 ```
 
-**Windows 设置环境变量：**
-```cmd
-set MAIL_USERNAME=your_email@qq.com
-set MAIL_PASSWORD=your_auth_code
-set JWT_SECRET=your-secret-key-at-least-32-chars
-```
-
-### 后端配置 (application.yml)
-
+2. 编辑 `application-dev.yml`，填入实际配置：
 ```yaml
-server:
-  port: 9090
-  servlet:
-    context-path: /api
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/quiz_system
     username: root
-    password: your_password
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
+    password: YOUR_DB_PASSWORD      # 数据库密码
 
   mail:
-    host: smtp.qq.com
-    username: ${MAIL_USERNAME:your_email@qq.com}
-    password: ${MAIL_PASSWORD:your_auth_code}
+    username: your_email@qq.com     # QQ邮箱
+    password: your_auth_code        # 邮箱授权码（非登录密码）
 
 jwt:
-  secret: ${JWT_SECRET:your-jwt-secret-key}
-  expiration: 172800  # 2天
+  secret: your-jwt-secret-key       # JWT密钥（至少32字符）
 ```
+
+3. IDE 中直接启动即可（默认使用 dev 环境）
 
 ### 生产环境配置
 
@@ -245,14 +229,12 @@ jwt:
 cp backend/src/main/resources/application-prod.yml.example backend/src/main/resources/application-prod.yml
 ```
 
-2. 编辑 `application-prod.yml` 填入实际的生产环境配置
+2. 编辑 `application-prod.yml`，填入生产环境配置（数据库、邮箱、JWT、服务器地址等）
 
 3. 启动时指定生产环境：
 ```bash
 java -jar target/online-quiz-system-backend-1.0.0.jar --spring.profiles.active=prod
 ```
-
-**注意**：`application-prod.yml` 已添加到 `.gitignore`，不会被提交到代码仓库。
 
 ### 前端配置
 
@@ -330,9 +312,9 @@ const apiClient = axios.create({
 
 系统初始化后会创建默认管理员账户：
 
-| 用户名 | 密码 | 角色 |
-|--------|------|------|
-| admin | admin123 | 管理员 |
+| 用户名 | 密码       | 角色 |
+|--------|----------|------|
+| admin | zaq1,lp- | 管理员 |
 
 **注意**：请在生产环境中及时修改默认密码。
 
