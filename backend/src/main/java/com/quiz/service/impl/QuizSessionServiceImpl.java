@@ -138,6 +138,13 @@ public class QuizSessionServiceImpl extends ServiceImpl<QuizSessionMapper, QuizS
             // 继续未完成的会话
             existingAnswers = userAnswerService.getAnswersBySessionId(session.getSessionId());
             startIndex = session.getCurrentIndex();
+
+            // 对于错题和收藏模式，需要实时更新题目数量
+            if ((mode == QuizSession.AnswerMode.wrong || mode == QuizSession.AnswerMode.favorite)
+                && session.getTotalQuestions() != questions.size()) {
+                session.setTotalQuestions(questions.size());
+                updateById(session);
+            }
         } else {
             // 创建新会话
             session = new QuizSession();
@@ -387,6 +394,14 @@ public class QuizSessionServiceImpl extends ServiceImpl<QuizSessionMapper, QuizS
         } else {
             // 普通练习/考试模式：获取题库所有题目
             questions = questionService.getQuestionsByBankId(session.getBankId());
+        }
+
+        // 对于错题和收藏模式，实时更新题目数量（会话进行中可能新增了错题/收藏）
+        if ((mode == QuizSession.AnswerMode.wrong || mode == QuizSession.AnswerMode.favorite)
+            && session.getStatus() == QuizSession.SessionStatus.ongoing
+            && session.getTotalQuestions() != questions.size()) {
+            session.setTotalQuestions(questions.size());
+            updateById(session);
         }
 
         // 获取答题记录
